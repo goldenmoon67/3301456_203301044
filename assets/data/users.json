@@ -1,0 +1,33 @@
+[
+  {
+    "player_id": 1,
+    "name": "mirac altinay",
+    "photo": "assets/images/football_player.png",
+    "teams": [
+      1,
+      2,
+      3
+    ],
+    "email": "abdulmirac@gmail.com",
+    "password": 123456,
+    "foot": true,
+    "position": {
+      "goalkeaper": false,
+      "defendar": false,
+      "midfielder": true,
+      "forward": true
+    }
+  },
+  {
+    "email": "a@it.com",
+    "password": 123456
+  },
+  {
+    "email": "b@it.com",
+    "password": 123456
+  },
+  {
+    "email": "abc@it.com",
+    "password": 123456
+  }
+]
