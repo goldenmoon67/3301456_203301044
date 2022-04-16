@@ -13,6 +13,12 @@ class _EventsPageState extends State<EventsPage> {
     return Center(
       child: Column(
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Text("Ne Arıyorsun?",style: TextStyle(fontSize: 45,color: Colors.blueAccent,fontWeight: FontWeight.bold),),
+            ),
+          ),
           SizedBox(
             height: 150,
             child: Row(

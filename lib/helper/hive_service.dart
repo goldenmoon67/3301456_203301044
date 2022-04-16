@@ -4,7 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveService{
 
-  static int userIndex=0;
+  static int userIndex=0;//this is for which user is logged in
+
   static void setData(String name,String email,String password) {
     UserInfo newUser=UserInfo(name, email, password);
     var box=Hive.box("users");

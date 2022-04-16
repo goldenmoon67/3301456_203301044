@@ -16,4 +16,5 @@ class SearchLocationTextField extends StatelessWidget {
       ),
     );
   }
+
 }
