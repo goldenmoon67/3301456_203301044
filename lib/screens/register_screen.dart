@@ -1,8 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/user_list.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
+import 'package:hive/hive.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -190,8 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              UserInfo userInfo=UserInfo(name!,email!,password!);
-              UserList.userList.add(userInfo);
+              HiveService.setData(name!, email!, password!);
               ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
               Navigator.pop(context);
             },
@@ -228,8 +229,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
   }
-
-
-
 
 }

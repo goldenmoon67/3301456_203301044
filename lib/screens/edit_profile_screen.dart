@@ -1,7 +1,7 @@
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/model/user_list.dart';
+import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
 
@@ -18,7 +18,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     content: const Text('Başarı ile düzenlendi!'),
     backgroundColor: Colors.green.shade400,
   );
-  UserInfo userInfo=UserList.userList[UserList.userIndex];
+  UserInfo userInfo=HiveService.getData()[HiveService.userIndex];
   String name="",email="",password="";
   bool showPassword = false;
   /*
@@ -136,13 +136,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           ElevatedButton(
             onPressed: () {
+             String newName="",newPassword="",newEmail="";
               if(name!="") {
-                userInfo.name = name;
+               newName= name;
+              }else{
+                newName=HiveService.getData()[HiveService.userIndex].name.toString();
               }
               if(email!=""){
-                userInfo.email=email;
+                newEmail=email;
+              }else{
+                newEmail=HiveService.getData()[HiveService.userIndex].email.toString();
               }
-              if(password!=""){userInfo.password=password;}
+              if(password!=""){
+                newPassword=password;
+              }else{
+                newPassword=HiveService.getData()[HiveService.userIndex].password.toString();
+              }
+              HiveService.updateData(newName,newEmail, newPassword);
               ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
               Navigator.pop(context);
             },
@@ -250,7 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
             r"{0,253}[a-zA-Z0-9])?)*$";
         RegExp regex = RegExp(pattern);
-        if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+        if (value.isEmpty || !regex.hasMatch(value)) {
           return 'Lütfen geçerli email giriniz.';
         } else {
           return null;

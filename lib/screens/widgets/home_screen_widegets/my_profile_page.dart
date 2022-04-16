@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/user_list.dart';
+import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/edit_profile_screen.dart';
 
 import '../../../constants/login_constants.dart';
@@ -12,12 +14,14 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
+
   @override
   Widget build(BuildContext context) {
+    List<UserInfo> userList=HiveService.getData();
     return Column(
       children: <Widget>[
         buildHeader(context),
-        Text(UserList.userList[UserList.userIndex].name,
+        Text(userList[HiveService.userIndex].name,
             style: LoginConstants.loginTextStyle),
         const SizedBox(
           height: 10,

@@ -5,7 +5,7 @@ class LoginConstants {
   static TextStyle loginTextStyle = GoogleFonts.quicksand(
     fontSize: 24,
     fontWeight: FontWeight.bold,
-    color: Colors.blue,
+    color: Colors.blueAccent,
   );
   static String loginTitle = 'lifeBall';
 }

@@ -16,8 +16,10 @@ class SearchingTextFieldForHomePage extends StatelessWidget {
           focusColor: Colors.white,
           hintText: "Takım, Futbolcu, Halısaha arayabilirsiniz.",
           hintStyle: TextStyle(color: Colors.white),
+          suffixStyle: TextStyle(color:Colors.white),
           fillColor: Colors.white,
           iconColor: Colors.white,
+          hoverColor: Colors.white,
           labelStyle:  TextStyle(fontWeight: FontWeight.bold),
           border:  OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),

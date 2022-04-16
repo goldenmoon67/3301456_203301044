@@ -1,10 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/user_list.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/forget_password.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/sign_button.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/title.dart';
+
 
 class FormTextField extends StatefulWidget {
   const FormTextField({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class FormTextField extends StatefulWidget {
 }
 
 class _FormTextFieldState extends State<FormTextField> {
+  late String name;
   late String email;
   late String password;
 
@@ -121,6 +124,7 @@ class _FormTextFieldState extends State<FormTextField> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
           labelText: 'email',
+
         ),
         onChanged: (value) {
           EmailValidator.validate(value);
@@ -145,11 +149,11 @@ class _FormTextFieldState extends State<FormTextField> {
   }
 
   void _userLogin() {
-    List<UserInfo> myUserList = UserList.userList;
+    List<UserInfo> myUserList=HiveService.getData();
     bool _isUser = false;
     for (int i = 0; i < myUserList.length; i++) {
       if (myUserList[i].email == email && myUserList[i].password == password) {
-        UserList.userIndex=i;
+        HiveService.userIndex=i;
         _isUser = true;
       } else {
         _isUser == false;
@@ -168,4 +172,6 @@ class _FormTextFieldState extends State<FormTextField> {
       });
     }
   }
+
+
 }
