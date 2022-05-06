@@ -1,10 +1,9 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
 import 'package:halisaha_app/helper/hive_service.dart';
-import 'package:halisaha_app/model/user_list.dart';
-import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
-import 'package:hive/hive.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -18,7 +17,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     content: const Text('Kayıt Başarılı!'),
     backgroundColor: Colors.green.shade400,
   );
-  bool showPassword = false;
   final _keyReg = GlobalKey<FormState>();
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
@@ -26,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController _townController;
   late TextEditingController _cityController;
 
- late  String? name,email,password;
+  late String? name, email, password;
 
   @override
   void initState() {
@@ -35,12 +33,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _cityController = TextEditingController();
-    _townController= TextEditingController();
+    _townController = TextEditingController();
   }
 
   @override
   void dispose() {
-
     _passwordController.dispose();
     _nameController.dispose();
     _emailController.dispose();
@@ -49,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return MyScaffoldWithAppbar(
@@ -85,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "Bulunduğunuz İlçe",
                   false, //character visibilitty
                   _townController,
-                 TextInputType.text,
+                  TextInputType.text,
                 ),
                 buildButtons()
               ],
@@ -95,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
   Container getPasswordTextfield() {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -120,6 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
   Container getEmailTextField() {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -130,19 +130,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
-          labelText: 'email',
+          labelText: 'Email',
         ),
         onChanged: (value) {
           EmailValidator.validate(value);
-        email = value.toString();
+          email = value.toString();
         },
         validator: (value) => validateEmail(value),
       ),
     );
   }
 
-  Container getTextfield(String labeltext, String placeholder,
-      bool isPasswordTextField, TextEditingController controller,TextInputType? keyboardType) {
+  Container getTextfield(
+      String labeltext,
+      String placeholder,
+      bool isPasswordTextField,
+      TextEditingController controller,
+      TextInputType? keyboardType) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: TextFormField(
@@ -156,18 +160,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           labelText: labeltext,
           hintText: placeholder,
         ),
-        onChanged:(value,){
+        onChanged: (
+          value,
+        ) {
           _setInfo(value, labeltext);
         },
-          validator:(value){ if(labeltext=="Ad"&&value!.length < 3){
+        validator: (value) {
+          if (labeltext == "Ad" && value!.length < 3) {
             return "Ad en az 3 karakter olmalı";
-          }else{
+          } else {
             return null;
-          };},
-        onSaved: (value) {
-
+          }
         },
-
+        onSaved: (value) {},
       ),
     );
   }
@@ -192,6 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           ElevatedButton(
             onPressed: () {
+              AuthenticationService.createUser(email!, password!);
               HiveService.setData(name!, email!, password!);
               ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
               Navigator.pop(context);
@@ -210,6 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
   validateEmail(String? value) {
     String pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -223,11 +230,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  _setInfo(String value,String label) async {
-    if(label=="Ad"){
-      name=value;
+  _setInfo(String value, String label) async {
+    if (label == "Ad") {
+      name = value;
     }
-
   }
+
 
 }

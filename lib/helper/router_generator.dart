@@ -29,7 +29,7 @@ class RouteGenerator {
   static Route<dynamic>? routeGenerator(RouteSettings settings) {
     switch (settings.name) {
       case "/LoginScreen":
-        return createRoute(const LoginScreen());
+        return createRoute(LoginScreen());
       case "/HomeScreen":
         return createRoute(const HomeScreen());
       case "/EditProfile":

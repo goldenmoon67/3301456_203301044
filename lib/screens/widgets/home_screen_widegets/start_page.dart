@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha_app/screens/widgets/home_screen_widegets/start_page_widgets/events_page.dart';
 import 'package:halisaha_app/screens/widgets/home_screen_widegets/start_page_widgets/find_my_location.dart';
 import 'package:halisaha_app/screens/widgets/home_screen_widegets/start_page_widgets/navigation.dart';
@@ -17,9 +15,9 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children:<Widget> [
         const NavigationMap(),
-        Positioned(
+        const Positioned(
           top: 10,
           right: 20,
           left: 20,
@@ -53,7 +51,7 @@ class _StartPageState extends State<StartPage> {
               _showEvents(context);
             });
           },
-          child: Text("Lokasyonu Onayla",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+          child:const Text("Lokasyonu Onayla",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
         ),
       );
   }

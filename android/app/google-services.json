@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "20156473626",
+    "project_id": "halisahaapp",
+    "storage_bucket": "halisahaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20156473626:android:dd402f472c7b26eea68ca3",
+        "android_client_info": {
+          "package_name": "com.example.halisaha_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20156473626-qhbfvif7u1o3bdj8h52eron9r4haebtj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.halisaha_app",
+            "certificate_hash": "172ebc281da9022cfbe59ee88330a42ec05d3927"
+          }
+        },
+        {
+          "client_id": "20156473626-dur80ivk14e0gilmgr876lifnmlgs7h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFtPEMxEODIOEHDwENmOE9GvrshT2Sz4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20156473626-dur80ivk14e0gilmgr876lifnmlgs7h9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "20156473626-scubjf8jd43nu79rlvdj56522uuec3fk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.goldenmoon.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

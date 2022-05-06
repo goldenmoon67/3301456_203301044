@@ -14,10 +14,9 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
-
   @override
   Widget build(BuildContext context) {
-    List<UserInfo> userList=HiveService.getData();
+    List<MyUser> userList = HiveService.getData();
     return Column(
       children: <Widget>[
         buildHeader(context),
@@ -73,7 +72,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
             Icons.analytics_outlined,
             context,
           ),
-
           buildEvent(
             "Başarılarım",
             Colors.lightGreenAccent.shade400,

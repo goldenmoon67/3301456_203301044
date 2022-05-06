@@ -8,7 +8,7 @@ class TitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: const EdgeInsets.only(bottom: 65),
+      margin: const EdgeInsets.only(bottom: 30),
       child: Text(
         LoginConstants.loginTitle,
         style: LoginConstants.loginTextStyle,

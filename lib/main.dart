@@ -1,17 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:halisaha_app/firebase_options.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/login_screen.dart';
+import 'package:halisaha_app/screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'helper/router_generator.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
-  Hive.registerAdapter(UserInfoAdapter());
+  Hive.registerAdapter(MyUserAdapter());
   await Hive.openBox("users");
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -21,13 +27,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.quicksandTextTheme(
@@ -35,9 +37,8 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       title: 'lifeBall',
-      home:const   LoginScreen(),
+      home: SplashScreen(),
       onGenerateRoute: RouteGenerator.routeGenerator,
     );
   }
-
 }

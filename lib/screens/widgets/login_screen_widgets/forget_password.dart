@@ -9,9 +9,9 @@ class ForgetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        var box=Hive.box("users");
-        List<UserInfo> myUserList=[];
-        for(int i=0;i<box.length;i++){
+        var box = Hive.box("users");
+        List<MyUser> myUserList = [];
+        for (int i = 0; i < box.length; i++) {
           myUserList.add(box.getAt(i));
         }
         debugPrint(myUserList[0].email.toString());

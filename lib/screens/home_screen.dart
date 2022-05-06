@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha_app/screens/widgets/home_screen_widegets/home_page.dart';
 import 'package:halisaha_app/screens/widgets/home_screen_widegets/start_page.dart';
@@ -22,11 +23,10 @@ class _HomeScreenState extends State<HomeScreen>
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
-  void _handleTabSelection() {
-    setState(() {
-    });
-  }
 
+  void _handleTabSelection() {
+    setState(() {});
+  }
 
   @override
   void dispose() {
@@ -46,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen>
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseAuth aut = FirebaseAuth.instance;
+                aut.signOut();
+              },
               icon: const Icon(
                 Icons.search,
               ),
@@ -79,17 +82,16 @@ class _HomeScreenState extends State<HomeScreen>
         indicatorColor: Colors.blueAccent,
         labelColor: Colors.black,
         unselectedLabelColor: Colors.grey,
-        padding:EdgeInsets.only(bottom: 5,),
+        padding: EdgeInsets.only(
+          bottom: 5,
+        ),
         controller: _tabController,
-
-        tabs:  [
+        tabs: [
           Tab(
-
             icon: Icon(
               Icons.home_filled,
-                color: _tabController.index == 0
-                    ? Colors.blueAccent
-                    : Colors.grey,
+              color:
+                  _tabController.index == 0 ? Colors.blueAccent : Colors.grey,
               size: 30,
             ),
           ),
@@ -97,9 +99,8 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(
               Icons.analytics_outlined,
               size: 30,
-              color: _tabController.index == 1
-                  ? Colors.blueAccent
-                  : Colors.grey,
+              color:
+                  _tabController.index == 1 ? Colors.blueAccent : Colors.grey,
             ),
           ),
           Tab(
@@ -107,27 +108,24 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(
               Icons.sports_soccer,
               size: 58,
-              color: _tabController.index == 2
-                  ? Colors.blueAccent
-                  : Colors.grey,
+              color:
+                  _tabController.index == 2 ? Colors.blueAccent : Colors.grey,
             ),
           ),
           Tab(
             icon: Icon(
               Icons.message,
               size: 30,
-              color: _tabController.index == 3
-                  ? Colors.blueAccent
-                  : Colors.grey,
+              color:
+                  _tabController.index == 3 ? Colors.blueAccent : Colors.grey,
             ),
           ),
           Tab(
             icon: Icon(
               Icons.person,
               size: 30,
-              color: _tabController.index == 4
-                  ? Colors.blueAccent
-                  : Colors.grey,
+              color:
+                  _tabController.index == 4 ? Colors.blueAccent : Colors.grey,
             ),
           ),
         ],

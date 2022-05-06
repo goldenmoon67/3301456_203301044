@@ -1,10 +1,8 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
-
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -18,43 +16,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
     content: const Text('Başarı ile düzenlendi!'),
     backgroundColor: Colors.green.shade400,
   );
-  UserInfo userInfo=HiveService.getData()[HiveService.userIndex];
-  String name="",email="",password="";
+  MyUser myUser = HiveService.getData()[HiveService.userIndex];
+  String name = "", email = "", password = "";
   bool showPassword = false;
-  /*
-  late TextEditingController _phoneNumberController;
+
+  late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _cityController;
   late TextEditingController _townController;
   late TextEditingController _neighborhoodController;
   late TextEditingController _nameController;
 
-   */
-
   @override
   void initState() {
     super.initState();
-    /*
+
     _passwordController = TextEditingController();
     _cityController = TextEditingController();
     _townController = TextEditingController();
     _neighborhoodController = TextEditingController();
-    _phoneNumberController = TextEditingController();
+    _emailController = TextEditingController();
     _nameController = TextEditingController();
-
-     */
   }
 
   @override
   void dispose() {
-    /*
     _cityController.dispose();
     _townController.dispose();
     _neighborhoodController.dispose();
-    _phoneNumberController.dispose();
+    _emailController.dispose();
     _nameController.dispose();
 
-     */
     super.dispose();
   }
 
@@ -70,7 +62,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           },
           child: ListView(
             children: [
-
               Center(
                 child: buildProfilePhoto(context),
               ),
@@ -78,37 +69,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 height: 35,
               ),
               getTextfield(
-                "Ad",
-                false,
-                //_nameController,
-                userInfo.name
-              ),
-              getTextfield(
-                "Email",
-
-                false,
-                //_phoneNumberController,
-                  userInfo.email
-              ),
-              getTextfield(
-                "Şifre",
-                true,
-                //_passwordController,
-                  userInfo.password
-              ),
+                  "Ad",
+                  "Anızı giriniz",
+                  false, //character visibilitty
+                  _nameController,
+                  TextInputType.text,
+                  myUser.name),
+              getEmailTextField(myUser.email),
+              getPasswordTextfield(myUser.password),
               getTextfield(
                 "Şehir",
-
-                false,
-                //_cityController,
-                ""
+                "Bulunduğunuz Şehir",
+                false, //character visibilitty
+                _cityController,
+                TextInputType.text,
+                "",
               ),
               getTextfield(
                 "İlçe",
-
-                false,
-               // _townController,
-                ""
+                "Bulunduğunuz İlçe",
+                false, //character visibilitty
+                _townController,
+                TextInputType.text,
+                "",
               ),
               buildButtons()
             ],
@@ -136,23 +119,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           ElevatedButton(
             onPressed: () {
-             String newName="",newPassword="",newEmail="";
-              if(name!="") {
-               newName= name;
-              }else{
-                newName=HiveService.getData()[HiveService.userIndex].name.toString();
-              }
-              if(email!=""){
-                newEmail=email;
-              }else{
-                newEmail=HiveService.getData()[HiveService.userIndex].email.toString();
-              }
-              if(password!=""){
-                newPassword=password;
-              }else{
-                newPassword=HiveService.getData()[HiveService.userIndex].password.toString();
-              }
-              HiveService.updateData(newName,newEmail, newPassword);
+              _saveDatas();
+
               ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
               Navigator.pop(context);
             },
@@ -167,6 +135,93 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Container getPasswordTextfield(String name) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextFormField(
+        obscureText: true,
+        //initialValue: name,
+        controller: _passwordController,
+        decoration: const InputDecoration(
+          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          labelText: 'Şifre',
+        ),
+        onChanged: (value) {
+          password = value.toString();
+        },
+        validator: (value) {
+          if (value!.length < 6) {
+            return "Şifre en az 6 karakter olmalı";
+          } else {
+            return null;
+          }
+        },
+      ),
+    );
+  }
+
+  Container getEmailTextField(String name) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        //initialValue: name,
+        controller: _emailController,
+        decoration: const InputDecoration(
+          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          labelText: 'Email',
+        ),
+        onChanged: (value) {
+          EmailValidator.validate(value);
+          email = value.toString();
+        },
+        validator: (value) => validateEmail(value),
+      ),
+    );
+  }
+
+  Container getTextfield(
+      String labelText,
+      String placeholder,
+      bool isPasswordTextField,
+      TextEditingController controller,
+      TextInputType? keyboardType,
+      String name) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: TextFormField(
+        obscureText: isPasswordTextField,
+        keyboardType: keyboardType,
+        initialValue: name,
+        //controller: controller,
+        decoration: InputDecoration(
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          labelText: labelText,
+          hintText: placeholder,
+        ),
+        onChanged: (
+          value,
+        ) {
+          _setInfo(value, labelText);
+        },
+        validator: (value) {
+          if (labelText == "Ad" && value!.length < 3) {
+            return "Ad en az 3 karakter olmalı";
+          } else {
+            return null;
+          }
+        },
+        onSaved: (value) {},
       ),
     );
   }
@@ -190,7 +245,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             shape: BoxShape.circle,
             image: const DecorationImage(
               fit: BoxFit.cover,
-              image:AssetImage("assets/images/mrc.jpg"),
+              image: AssetImage("assets/images/mrc.jpg"),
             ),
           ),
         ),
@@ -218,65 +273,60 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Container getTextfield(String labeltext, //String placeholder,
-      bool isPasswordTextField,/* TextEditingController controller*/String nameas) {
+  Container getTextField(
+      String labelText, //,
+      bool isPasswordTextField,
+      String name) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: TextFormField(
-        obscureText: isPasswordTextField,
-      //  controller: controller,
-        initialValue: nameas,
-        decoration: InputDecoration(
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          border: const OutlineInputBorder(),
-          labelText: labeltext,
-        ),
-        onChanged:(value) {
-          _setNewValue(value,labeltext);
-          _validateEmail(value);
-        },
-        onSaved: (value) {
-        },
-        validator:(value){
-          _getInitialValue(labeltext,value!);
-        },
-
-      ),
+          obscureText: isPasswordTextField,
+          //  controller: controller,
+          initialValue: name,
+          decoration: InputDecoration(
+            labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            border: const OutlineInputBorder(),
+            labelText: labelText,
+          ),
+          onChanged: (value) {
+            _setNewValue(value, labelText);
+            _validateEmail(value);
+          },
+          onSaved: (value) {},
+          validator: (value) {
+            _getInitialValue(labelText, value!);
+          }),
     );
   }
 
-   _getInitialValue(String text,String value) {
-    if(text=="Ad"){
-
-        if (value.length < 6) {
-          return "İsim en az 6 karakter olmalı";
-        } else {
-          return null;
-        }
-
-    }if(text=="Email"){
-        String pattern =
-            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-            r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-            r"{0,253}[a-zA-Z0-9])?)*$";
-        RegExp regex = RegExp(pattern);
-        if (value.isEmpty || !regex.hasMatch(value)) {
-          return 'Lütfen geçerli email giriniz.';
-        } else {
-          return null;
-        }
-
-    }if(text=="Şifre"){
-
-        if (value.length < 6) {
-          return "Şifre en az 6 karakter olmalı";
-        } else {
-          return null;
-        }
-
-    } else{
+  _getInitialValue(String text, String value) {
+    if (text == "Ad") {
+      if (value.length < 6) {
+        return "İsim en az 6 karakter olmalı";
+      } else {
+        return null;
+      }
+    }
+    if (text == "Email") {
+      String pattern =
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+          r"{0,253}[a-zA-Z0-9])?)*$";
+      RegExp regex = RegExp(pattern);
+      if (value.isEmpty || !regex.hasMatch(value)) {
+        return 'Lütfen geçerli email giriniz.';
+      } else {
+        return null;
+      }
+    }
+    if (text == "Şifre") {
+      if (value.length < 6) {
+        return "Şifre en az 6 karakter olmalı";
+      } else {
+        return null;
+      }
+    } else {
       return 0;
-
     }
   }
 
@@ -284,20 +334,55 @@ class _EditProfilePageState extends State<EditProfilePage> {
     EmailValidator.validate(value);
   }
 
-  void _setNewValue(String value,String id) {
-
-    if(id=="Ad"){
-
-      name=value;
-
-    }if(id=="Email"){
-      email=value;
-
-    }if(id=="Şifre"){
-
-    password=value;
-
+  void _setNewValue(String value, String id) {
+    if (id == "Ad") {
+      name = value;
+    }
+    if (id == "Email") {
+      email = value;
+    }
+    if (id == "Şifre") {
+      password = value;
     }
   }
 
+  validateEmail(String? value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      return 'Lütfen geçerli email giriniz.';
+    } else {
+      return null;
+    }
+  }
+
+  _setInfo(String value, String label) async {
+    if (label == "Ad") {
+      name = value;
+    }
+  }
+
+  void _saveDatas() {
+    String newName = "", newPassword = "", newEmail = "";
+    if (name != "") {
+      newName = name;
+    } else {
+      newName = HiveService.getData()[HiveService.userIndex].name.toString();
+    }
+    if (email != "") {
+      newEmail = email;
+    } else {
+      newEmail = HiveService.getData()[HiveService.userIndex].email.toString();
+    }
+    if (password != "") {
+      newPassword = password;
+    } else {
+      newPassword =
+          HiveService.getData()[HiveService.userIndex].password.toString();
+    }
+    HiveService.updateData(newName, newEmail, newPassword);
+  }
 }

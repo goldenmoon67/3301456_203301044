@@ -1,12 +1,14 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart' as prefix;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
 import 'package:halisaha_app/helper/hive_service.dart';
-import 'package:halisaha_app/model/user_list.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/forget_password.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/sign_button.dart';
+import 'package:halisaha_app/screens/widgets/login_screen_widgets/sign_in_with_google.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/title.dart';
-
 
 class FormTextField extends StatefulWidget {
   const FormTextField({Key? key}) : super(key: key);
@@ -16,10 +18,10 @@ class FormTextField extends StatefulWidget {
 }
 
 class _FormTextFieldState extends State<FormTextField> {
-  late String name;
-  late String email;
-  late String password;
-
+  late String name = "";
+  late String email = "";
+  late String password = "";
+  bool userResultFirebase = false;
   final snackbarMessage = SnackBar(
     content: const Text('Hatali email veya sifre!'),
     backgroundColor: Colors.red.shade400,
@@ -54,12 +56,13 @@ class _FormTextFieldState extends State<FormTextField> {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           children: <Widget>[
-            TitleWidget(),
+            const TitleWidget(),
             getEmailTextField(),
-            getPasswordTextfield(),
-            ForgetPassword(),
+            passwordTextField(),
+            const ForgetPassword(),
             getLoginButton(),
-            SignButton(),
+            const SingInWithGoogle(),
+            const SignButton(),
           ],
         ),
       ),
@@ -68,18 +71,24 @@ class _FormTextFieldState extends State<FormTextField> {
 
   Container getLoginButton() {
     return Container(
-      height: 50,
+      height: 55,
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Colors.blueGrey.shade700,
-          onPrimary: Colors.white,
-        ),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: const BorderSide(color: Colors.blueAccent),
+              ),
+            )),
         child: const Text('Giriş Yap'),
         onPressed: () {
           if (email.isEmpty || password.isEmpty) {
-            return null;
+            return;
           } else {
+            AuthenticationService.loginWithEmailandPassword(email, password);
+            userResultFirebase = AuthenticationService.userLog();
             _userLogin();
           }
         },
@@ -87,7 +96,7 @@ class _FormTextFieldState extends State<FormTextField> {
     );
   }
 
-  Container getPasswordTextfield() {
+  Container passwordTextField() {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: TextFormField(
@@ -123,8 +132,7 @@ class _FormTextFieldState extends State<FormTextField> {
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
-          labelText: 'email',
-
+          labelText: 'Email',
         ),
         onChanged: (value) {
           EmailValidator.validate(value);
@@ -149,11 +157,11 @@ class _FormTextFieldState extends State<FormTextField> {
   }
 
   void _userLogin() {
-    List<UserInfo> myUserList=HiveService.getData();
+    List<MyUser> myUserList = HiveService.getData();
     bool _isUser = false;
     for (int i = 0; i < myUserList.length; i++) {
       if (myUserList[i].email == email && myUserList[i].password == password) {
-        HiveService.userIndex=i;
+        HiveService.userIndex = i;
         _isUser = true;
       } else {
         _isUser == false;
@@ -161,17 +169,18 @@ class _FormTextFieldState extends State<FormTextField> {
     }
 
     bool _validate = _key.currentState!.validate();
-    if (_validate == true && _isUser == true) {
+    if ((_validate == true && _isUser == true) || userResultFirebase == true) {
       _key.currentState!.save();
       Navigator.pushNamed(context, '/HomeScreen');
       _key.currentState!.reset();
     }
-    if (_isUser == false && _validate == true) {
+    if (userResultFirebase == false) {
+      //_isUser == false && _validate == true && userResultFirebase == false) {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
       });
+    } else {
+      CircularProgressIndicator();
     }
   }
-
-
 }
