@@ -30,9 +30,7 @@ class AuthenticationService {
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
       } else {
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        );
+        Navigator.pushNamed(context, "/HomeScreen");
       }
     });
   }

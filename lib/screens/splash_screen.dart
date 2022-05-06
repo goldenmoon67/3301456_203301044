@@ -1,22 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/splash_service/splash_screen_features.dart';
+import 'package:halisaha_app/screens/splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
-import 'package:halisaha_app/screens/home_screen.dart';
-import 'package:halisaha_app/screens/login_screen.dart';
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
-class SplashScreenFeature {
-  static var _user = FirebaseAuth.instance.currentUser;
-  static goToNewPage() {
-    if (_user == null) {
-      return LoginScreen();
-    }
-    if (_user != null) {
-      return HomeScreen();
-    } else {
-      return Scaffold(
-        body:
-            Center(child: Image.asset("assets/images/logo_adaptive_fore.png")),
-      );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSplashScreen(
+        duration: 2000,
+        splashIconSize: 300,
+        splash: Image.asset("assets/images/splash.png"),
+        nextScreen: SplashScreenFeature.goToNewPage(),
+        splashTransition: SplashTransition.scaleTransition,
+        pageTransitionType: PageTransitionType.rightToLeft,
+        backgroundColor: Colors.white);
   }
 }

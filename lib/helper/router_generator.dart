@@ -55,5 +55,6 @@ class RouteGenerator {
       case "/PlayerDetailScreen":
         return createRoute(const PlayerDetailScreen());
     }
+    
   }
 }

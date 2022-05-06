@@ -3,7 +3,6 @@ import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
 import 'package:halisaha_app/screens/widgets/find_rival_screen_widgets/create_posting_page.dart';
 import 'package:halisaha_app/screens/widgets/find_rival_screen_widgets/existing_postings_page.dart';
 
-
 class FindRivalScreen extends StatefulWidget {
   const FindRivalScreen({Key? key}) : super(key: key);
 

@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha_app/firebase_options.dart';
-import 'package:halisaha_app/helper/splash_service/splash_screen_features.dart';
+import 'package:halisaha_app/helper/router_generator.dart';
 import 'package:halisaha_app/model/users.dart';
+import 'package:halisaha_app/screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
@@ -37,7 +38,8 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       title: 'lifeBall',
-      home: const SplashScreen(),
+      home: SplashScreen(),
+      onGenerateRoute: RouteGenerator.routeGenerator,
     );
   }
 }
