@@ -2,11 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha_app/firebase_options.dart';
+import 'package:halisaha_app/helper/splash_service/splash_screen_features.dart';
 import 'package:halisaha_app/model/users.dart';
-import 'package:halisaha_app/screens/login_screen.dart';
-import 'package:halisaha_app/screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'helper/router_generator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +14,8 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MyUserAdapter());
   await Hive.openBox("users");
+  //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -37,8 +37,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       title: 'lifeBall',
-      home: SplashScreen(),
-      onGenerateRoute: RouteGenerator.routeGenerator,
+      home: const SplashScreen(),
     );
   }
 }

@@ -83,13 +83,12 @@ class _FormTextFieldState extends State<FormTextField> {
               ),
             )),
         child: const Text('Giriş Yap'),
-        onPressed: () {
+        onPressed: () async {
           if (email.isEmpty || password.isEmpty) {
             return;
           } else {
             AuthenticationService.loginWithEmailandPassword(email, password);
-            userResultFirebase = AuthenticationService.userLog();
-            _userLogin();
+            AuthenticationService.userLog(context);
           }
         },
       ),
@@ -156,6 +155,7 @@ class _FormTextFieldState extends State<FormTextField> {
     }
   }
 
+//hive database login query
   void _userLogin() {
     List<MyUser> myUserList = HiveService.getData();
     bool _isUser = false;
