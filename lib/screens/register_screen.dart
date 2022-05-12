@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
+import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/screens/widgets/always_use/my_scaffold.dart';
 
@@ -198,6 +198,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ElevatedButton(
             onPressed: () {
               AuthenticationService.createUser(email!, password!);
+              CrudServices.addNewUser(
+                  name: name!,
+                  email: email!,
+                  password: password!,
+                  city: "city",
+                  town: "town");
               HiveService.setData(name!, email!, password!);
               ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
               Navigator.pop(context);
@@ -235,6 +241,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       name = value;
     }
   }
-
-
 }

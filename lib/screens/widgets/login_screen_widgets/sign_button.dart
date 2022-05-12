@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/constants/login_constants.dart';
-import 'package:halisaha_app/screens/register_screen.dart';
 
 class SignButton extends StatelessWidget {
   const SignButton({Key? key}) : super(key: key);
@@ -23,7 +21,7 @@ class SignButton extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/HomeScreen');
+              Navigator.pushNamed(context, '/RegisterScreen');
             })
       ],
     );

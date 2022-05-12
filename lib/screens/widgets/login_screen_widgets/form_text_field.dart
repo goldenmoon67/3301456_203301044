@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as prefix;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
+import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/widgets/login_screen_widgets/forget_password.dart';
@@ -180,7 +181,7 @@ class _FormTextFieldState extends State<FormTextField> {
         ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
       });
     } else {
-      CircularProgressIndicator();
+      const CircularProgressIndicator();
     }
   }
 }
