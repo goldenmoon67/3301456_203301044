@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/screens/home_screen.dart';
+import 'package:halisaha_app/screens/main_screens/dashboard_screen.dart';
 
 class AuthenticationService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;

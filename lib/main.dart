@@ -2,9 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha_app/firebase_options.dart';
-import 'package:halisaha_app/helper/router_generator.dart';
+import 'package:halisaha_app/helper/hive_services/hive_service.dart';
+import 'package:halisaha_app/helper/router_services/router_generator.dart';
 import 'package:halisaha_app/model/users.dart';
-import 'package:halisaha_app/screens/splash_screen.dart';
+import 'package:halisaha_app/screens/main_screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
@@ -14,7 +15,9 @@ Future<void> main() async {
   );
   await Hive.initFlutter();
   Hive.registerAdapter(MyUserAdapter());
-  await Hive.openBox("users");
+  await Hive.openBox("user");
+  await Hive.openBox('infoBox');
+  await Hive.openBox("currentUser");
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
