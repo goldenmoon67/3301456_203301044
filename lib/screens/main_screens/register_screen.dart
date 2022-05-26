@@ -196,16 +196,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              AuthenticationService.createUser(email!, password!);
-              //HiveService.setData(name!, email!, password!);
               CrudServices.addNewUser(
                   name: name!,
                   email: email!,
                   password: password!,
                   city: "Zonguldak",
                   town: "Ereğli");
-              ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
-              Navigator.pop(context);
+              CrudServices.plusPlusUsers();
             },
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsets>(

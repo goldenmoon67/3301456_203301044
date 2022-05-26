@@ -2,6 +2,10 @@
 
 part of 'users.dart';
 
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
 class MyUserAdapter extends TypeAdapter<MyUser> {
   @override
   final int typeId = 1;
@@ -17,13 +21,16 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
       fields[1] as String,
       fields[2] as String,
       fields[3] as String,
+      fields[4] as String,
+      fields[5] as String,
+      fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MyUser obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -31,7 +38,13 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
       ..writeByte(2)
       ..write(obj.email)
       ..writeByte(3)
-      ..write(obj.password);
+      ..write(obj.password)
+      ..writeByte(4)
+      ..write(obj.imageUrl)
+      ..writeByte(5)
+      ..write(obj.city)
+      ..writeByte(6)
+      ..write(obj.town);
   }
 
   @override

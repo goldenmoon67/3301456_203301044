@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/screens/dashboard_screens/widgets/home_page_widgets/info_list.dart';
 import 'package:halisaha_app/screens/dashboard_screens/widgets/home_page_widgets/searching_textfield.dart';
 import 'package:halisaha_app/screens/dashboard_screens/widgets/home_page_widgets/teams_near_you.dart';
@@ -34,8 +35,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     const SearchingTextFieldForHomePage(),
-                    buildListViewBuilder(context, const ThePersonMayYouKnow(),
-                        "Yakınındaki Kullanıcılar"),
+                    _thePersonMayYouKnow(context, "Yakınındaki Kullanıcılar"),
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -47,8 +47,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const InfoList(),
-                    buildListViewBuilder(
-                        context, const TeamsNearYou(), "Yakınındaki Takımlar"),
+                    _teamsNearYou(context, "Yakınındaki Takımlar"),
                   ],
                 ),
               ),
@@ -59,24 +58,49 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  buildListViewBuilder(BuildContext context, Widget listView, String title) {
+  _thePersonMayYouKnow(BuildContext context, String title) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           SizedBox(
             height: 230,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
-                itemCount: 12,
+                itemCount: HiveService.getData().length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => listView),
+                itemBuilder: (context, index) =>
+                    ThePersonMayYouKnow(index: index)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _teamsNearYou(BuildContext context, String title) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          SizedBox(
+            height: 230,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+                itemCount: HiveService.getData().length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => TeamsNearYou(index: index)),
           ),
         ],
       ),

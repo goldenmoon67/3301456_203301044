@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/helper_secreens/my_info_screens/edit_profile_screen.dart';
-import '../../../constants/login_constants.dart';
+
+import '../../../../constants/login_constants.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
+  final myUser = HiveService.readCurrentUser();
   @override
   Widget build(BuildContext context) {
     MyUser _currentUser = HiveService.readCurrentUser();
@@ -29,9 +31,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           onPressed: () {
-            Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditProfilePage()))
-                .then(
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const EditProfilePage())).then(
               (value) {
                 setState(() {});
               },
@@ -134,13 +137,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Stack buildHeader(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          child: Image.asset(
-            "assets/images/back_myProfile.jpg",
-            fit: BoxFit.contain,
-            height: 300,
-            width: double.infinity,
-          ),
+        Image.asset(
+          "assets/images/back_myProfile.jpg",
+          fit: BoxFit.contain,
+          height: 300,
+          width: double.infinity,
         ),
         Positioned(
           top: 150,
@@ -159,9 +160,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     offset: const Offset(0, 10))
               ],
               shape: BoxShape.circle,
-              image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("assets/images/mrc.jpg")),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(myUser.imageUrl),
+              ),
             ),
           ),
         ),

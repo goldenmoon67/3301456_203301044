@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/screens/main_screens/widgets/login_screen_widgets/forget_password.dart';
 import 'package:halisaha_app/screens/main_screens/widgets/login_screen_widgets/sign_button.dart';
@@ -154,12 +155,12 @@ class _FormTextFieldState extends State<FormTextField> {
 //hive database login query
   void _userLogin(String email, String password) {
     HiveService.userLoggedIn(email: email, password: password);
-
+    debugPrint(CrudServices.userCount.toString());
     bool _validate = _key.currentState!.validate();
     if ((_validate == true && HiveService.resultf() == true)) {
       _key.currentState!.save();
       HiveService.loginHive();
-      Navigator.pushNamed(context, '/HomeScreen');
+      Navigator.pushNamed(context, '/DashBoardScreen');
       _key.currentState!.reset();
     } else {
       setState(() {

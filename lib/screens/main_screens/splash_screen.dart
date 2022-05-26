@@ -1,8 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/splash_service/splash_screen_features.dart';
-import 'package:halisaha_app/screens/main_screens/splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -10,7 +8,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CrudServices.usersFirebaseToHive();
+    // CrudServices.usersToHive();
     return AnimatedSplashScreen(
         duration: 2000,
         splashIconSize: 300,

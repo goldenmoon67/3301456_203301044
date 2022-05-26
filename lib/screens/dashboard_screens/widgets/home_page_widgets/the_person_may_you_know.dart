@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/hive_services/hive_service.dart';
+import 'package:halisaha_app/model/users.dart';
 
 class ThePersonMayYouKnow extends StatefulWidget {
-  const ThePersonMayYouKnow({Key? key}) : super(key: key);
+  final int index;
+  const ThePersonMayYouKnow({Key? key, required this.index}) : super(key: key);
 
   @override
   State<ThePersonMayYouKnow> createState() => _ThePersonMayYouKnowState();
@@ -10,6 +13,7 @@ class ThePersonMayYouKnow extends StatefulWidget {
 class _ThePersonMayYouKnowState extends State<ThePersonMayYouKnow> {
   @override
   Widget build(BuildContext context) {
+    List<MyUser> _userList = HiveService.getData();
     return Container(
       padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
       margin: const EdgeInsets.only(right: 25),
@@ -31,19 +35,17 @@ class _ThePersonMayYouKnowState extends State<ThePersonMayYouKnow> {
                       offset: const Offset(0, 10))
                 ],
                 shape: BoxShape.circle,
-                image: const DecorationImage(
+                image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    "assets/images/mrc.jpg",
-                  ),
+                  image: NetworkImage(_userList[widget.index].imageUrl),
                 ),
               ),
               width: 90,
               height: 90,
             ),
             Text(
-              "Mirac Altinay",
-              style: TextStyle(color: Colors.white),
+              HiveService.getData()[widget.index].name,
+              style: const TextStyle(color: Colors.white),
             ),
           ],
         ),

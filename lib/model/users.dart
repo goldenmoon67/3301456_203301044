@@ -16,7 +16,17 @@ class MyUser {
   @HiveField(3)
   String password;
 
-  MyUser(this.id, this.name, this.email, this.password);
+  @HiveField(4)
+  String imageUrl;
+
+  @HiveField(5)
+  String city;
+
+  @HiveField(6)
+  String town;
+
+  MyUser(this.id, this.name, this.email, this.password, this.imageUrl,
+      this.city, this.town);
   @override
   String toString() {
     return "id:$id,name:$name , email:$email ,password: $password";

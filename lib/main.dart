@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:halisaha_app/firebase_options.dart';
-import 'package:halisaha_app/helper/hive_services/hive_service.dart';
+import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/router_services/router_generator.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/main_screens/splash_screen.dart';
@@ -15,9 +15,9 @@ Future<void> main() async {
   );
   await Hive.initFlutter();
   Hive.registerAdapter(MyUserAdapter());
-  await Hive.openBox("user");
-  await Hive.openBox('infoBox');
-  await Hive.openBox("currentUser");
+  await Hive.openBox("userbox");
+  await Hive.openBox('informationbox');
+  await Hive.openBox("currentUserbox");
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
@@ -33,6 +33,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    CrudServices.countUsers();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

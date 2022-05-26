@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 
-import 'package:halisaha_app/screens/dashboard_screens/my_profile_page.dart';
+import 'package:halisaha_app/screens/dashboard_screens/pages/my_profile_page.dart';
 import 'package:halisaha_app/screens/dashboard_screens/pages/home_page.dart';
 import 'package:halisaha_app/screens/dashboard_screens/pages/messages_page.dart';
 import 'package:halisaha_app/screens/dashboard_screens/pages/start_page.dart';

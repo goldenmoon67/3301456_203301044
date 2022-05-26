@@ -1,12 +1,14 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CrudServices {
   static final _db = FirebaseFirestore.instance;
-
+  static int userCount = 0;
   static addNewUser(
       {required String name,
       required String email,
@@ -27,31 +29,85 @@ class CrudServices {
     _db.doc('users/$_newDocId').set(user);
   }
 
-  static usersFirebaseToHive() async {
-    var _usersDocuments = await _db.collection("users").get();
-    var _users = _usersDocuments.docs;
-    for (var currentUser in _users) {
-      Map userMap = currentUser.data();
-
-      // debugPrint(userMap['name'].toString());
-      List<MyUser> newUserList = [];
-      MyUser newUser = MyUser(
-          userMap['id'].toString(),
-          userMap['name'].toString(),
-          userMap['email'].toString(),
-          userMap['password'].toString());
-      newUserList.add(newUser);
-      HiveService.newVersionControl(newUserList);
-      HiveService.setData(userMap['id'].toString(), userMap['name'].toString(),
-          userMap['email'].toString(), userMap['password'].toString());
-    }
+  static updateUser(
+      {required String email,
+      required String name,
+      required String password,
+      required String city,
+      required String town}) {
+    MyUser _myuser = HiveService.readCurrentUser();
+    CollectionReference users = _db.collection("users");
+    users
+        .doc(_myuser.id)
+        .update({
+          'email': email,
+          'name': name,
+          'password': password,
+          'profile_image': _myuser.imageUrl,
+          'city': city,
+          'town': town
+        })
+        .then((value) => debugPrint("User Updated"))
+        .catchError((error) => debugPrint("Failed to update user: $error"));
   }
 
-  /*static readUser({required String userId}) async {
-    var _userDoc = await _db.doc('users/lODl1rILhnEeqeiDjBbj').get();
-    HiveService.setData(_userDoc.data()!['name'], _userDoc.data()!['email'],
-        _userDoc.data()!['password']);
-    debugPrint(HiveService.getData()[HiveService.getData().length - 1].name);
+  static countUsers() async {
+    final docRef = _db.collection("counter").doc("user_counter");
+    docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        int result = data['result'];
+        userCount = result;
+      },
+      onError: (e) => debugPrint("Error getting document: $e"),
+    );
   }
-  */
+
+  static plusPlusUsers() {
+    final docRef = _db.collection("counter").doc("user_counter");
+    docRef.get().then((DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      int result = data['result'];
+      _db.doc('counter/user_counter').set({'result': ++result});
+    });
+  }
+
+  static usersToHive() async {
+    _db.collection("users").snapshots().listen((event) {
+      final users = [];
+      for (var doc in event.docs) {
+        debugPrint("usertohive");
+        users.add(doc.data());
+        HiveService.setData(
+            doc.data()['id'].toString(),
+            doc.data()['name'].toString(),
+            doc.data()['email'].toString(),
+            doc.data()['password'].toString(),
+            doc.data()['profile_image'].toString(),
+            doc.data()['city'].toString(),
+            doc.data()['town'].toString());
+      }
+    });
+  }
+
+  static kameraGaleriImageUpload({required bool type}) async {
+    final MyUser _currentUser = HiveService.readCurrentUser();
+    final ImagePicker _picker = ImagePicker();
+
+    XFile? _file = await _picker.pickImage(
+        source: type == true ? ImageSource.gallery : ImageSource.camera);
+
+    if (_file == null) {}
+    var _profileRef =
+        FirebaseStorage.instance.ref('user_profile_image/${_currentUser.id}');
+
+    var _task = _profileRef.putFile(File(_file!.path));
+    _task.whenComplete(() async {
+      var _url = await _profileRef.getDownloadURL();
+      _db
+          .doc('users/${_currentUser.id}')
+          .set({'profile_image': _url.toString()}, SetOptions(merge: true));
+      usersToHive();
+    });
+  }
 }

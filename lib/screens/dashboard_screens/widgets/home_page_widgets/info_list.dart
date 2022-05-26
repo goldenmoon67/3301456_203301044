@@ -10,8 +10,7 @@ class InfoList extends StatefulWidget {
 class _InfoListState extends State<InfoList>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-TextStyle textStyle=TextStyle(color: Colors.white
-);
+  TextStyle textStyle = const TextStyle(color: Colors.white);
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
@@ -83,19 +82,26 @@ TextStyle textStyle=TextStyle(color: Colors.white
     return Container(
       height: 200,
       width: 50,
-      decoration:  BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(12),),
+      decoration: BoxDecoration(
+        color: Colors.blueAccent,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                Expanded(child: Text("Halısaha mı arıyorsun?",style: textStyle,)),
-                Expanded(child: Text("Takımın mı eksik?",style: textStyle)),
-                Expanded(child: Text("Rakip mi arıyorsun?",style: textStyle)),
-                Expanded(child: ElevatedButton(onPressed: () {
-
-                }, child: Text("İlanları Gör")))
+                Expanded(
+                    child: Text(
+                  "Halısaha mı arıyorsun?",
+                  style: textStyle,
+                )),
+                Expanded(child: Text("Takımın mı eksik?", style: textStyle)),
+                Expanded(child: Text("Rakip mi arıyorsun?", style: textStyle)),
+                Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {}, child: const Text("İlanları Gör")))
               ],
             ),
           ),
@@ -109,16 +115,22 @@ TextStyle textStyle=TextStyle(color: Colors.white
     return Container(
       height: 200,
       width: 50,
-      decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.grey),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: Colors.grey),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            Expanded(child: Text("Arkadaşlarını Uygulamaya davet et",style: textStyle),),
-            Expanded(child: Text("Takımı Güçlendir",style: textStyle),),
-            Expanded(child: ElevatedButton(onPressed: () {}, child: Text("Davet Et")))
+            Expanded(
+              child:
+                  Text("Arkadaşlarını Uygulamaya davet et", style: textStyle),
+            ),
+            Expanded(
+              child: Text("Takımı Güçlendir", style: textStyle),
+            ),
+            Expanded(
+                child:
+                    ElevatedButton(onPressed: () {}, child: Text("Davet Et")))
           ],
         ),
       ),
@@ -129,17 +141,27 @@ TextStyle textStyle=TextStyle(color: Colors.white
     return Container(
       height: 200,
       width: 50,
-      decoration:  BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.teal.shade300),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: Colors.teal.shade300),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: <Widget>[
-            Expanded(child: Text("Sana en yakın ilanlar için konumunu aç",style: textStyle),),
+            Expanded(
+              child: Text("Sana en yakın ilanlar için konumunu aç",
+                  style: textStyle),
+            ),
             Row(
               children: <Widget>[
-                Expanded(child: SizedBox(height: 95,width:45,child: Text("Konum bilginle yakınındaki halısahaları, futbolcuları, takımları bulabilirsin.",style: textStyle),),),
+                Expanded(
+                  child: SizedBox(
+                    height: 95,
+                    width: 45,
+                    child: Text(
+                        "Konum bilginle yakınındaki halısahaları, futbolcuları, takımları bulabilirsin.",
+                        style: textStyle),
+                  ),
+                ),
                 Expanded(child: Image.asset("assets/images/abc.png"))
               ],
             ),

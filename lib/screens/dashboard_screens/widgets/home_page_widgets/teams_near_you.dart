@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TeamsNearYou extends StatelessWidget {
-  const TeamsNearYou({Key? key}) : super(key: key);
+  final int index;
+  const TeamsNearYou({required this.index, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class TeamsNearYou extends StatelessWidget {
           children: <Widget>[
             Flexible(
               flex: 5,
-              child: Container(
+              child: SizedBox(
                 height: 130,
                 //color: Colors.blueAccent,
                 child: Container(
@@ -42,10 +43,16 @@ class TeamsNearYou extends StatelessWidget {
                 ),
               ),
             ),
-            const Flexible(flex:1,child: Padding(
-              padding:  EdgeInsets.only(top: 1.0),
-              child: Text("TSK",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-            )),
+            const Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 1.0),
+                  child: Text(
+                    "TSK",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                )),
           ],
         ),
       ),

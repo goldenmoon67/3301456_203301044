@@ -1,8 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/hive_services/current_user.dart';
+import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
+import 'package:halisaha_app/screens/helper_secreens/my_info_screens/widgets/edit_profile_widgets/edit_photo_screen.dart';
 import 'package:halisaha_app/screens/helper_secreens/widgets/always_use/my_scaffold.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -12,13 +13,19 @@ class EditProfilePage extends StatefulWidget {
   _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends State<EditProfilePage>
+    with TickerProviderStateMixin {
   final snackbarMessage = SnackBar(
     content: const Text('Başarı ile düzenlendi!'),
     backgroundColor: Colors.green.shade400,
   );
-  MyUser myUser = HiveService.readCurrentUser();
-  String name = "", email = "", password = "";
+  late MyUser myUser = HiveService.readCurrentUser();
+
+  late String name;
+  late String email;
+  late String password;
+  late String city;
+  late String town;
   bool showPassword = false;
 
   late TextEditingController _emailController;
@@ -27,17 +34,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _townController;
   late TextEditingController _neighborhoodController;
   late TextEditingController _nameController;
-
+  late AnimationController _animationController;
   @override
   void initState() {
     super.initState();
-
+    name = myUser.name;
+    email = myUser.email;
+    password = myUser.password;
+    city = myUser.city;
+    town = myUser.town;
     _passwordController = TextEditingController();
     _cityController = TextEditingController();
     _townController = TextEditingController();
     _neighborhoodController = TextEditingController();
     _emailController = TextEditingController();
     _nameController = TextEditingController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..addListener(() {
+        setState(() {});
+      });
+    _animationController.repeat(reverse: true);
   }
 
   @override
@@ -47,7 +65,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _neighborhoodController.dispose();
     _emailController.dispose();
     _nameController.dispose();
-
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -71,7 +89,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               getTextfield(
                   "Ad",
-                  "Anızı giriniz",
+                  "Adınızı giriniz",
                   false, //character visibilitty
                   _nameController,
                   TextInputType.text,
@@ -79,21 +97,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
               getEmailTextField(myUser.email),
               getPasswordTextfield(myUser.password),
               getTextfield(
-                "Şehir",
-                "Bulunduğunuz Şehir",
-                false, //character visibilitty
-                _cityController,
-                TextInputType.text,
-                "",
-              ),
+                  "Şehir",
+                  "Bulunduğunuz Şehir",
+                  false, //character visibilitty
+                  _cityController,
+                  TextInputType.text,
+                  myUser.city),
               getTextfield(
-                "İlçe",
-                "Bulunduğunuz İlçe",
-                false, //character visibilitty
-                _townController,
-                TextInputType.text,
-                "",
-              ),
+                  "İlçe",
+                  "Bulunduğunuz İlçe",
+                  false, //character visibilitty
+                  _townController,
+                  TextInputType.text,
+                  myUser.town),
               buildButtons()
             ],
           ),
@@ -113,17 +129,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
               padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(16)),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             child: const Text('İPTAL',
                 style: TextStyle(
                     fontSize: 14, letterSpacing: 2.2, color: Colors.black)),
           ),
           ElevatedButton(
             onPressed: () {
-              _saveDatas();
-
-              ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
-              Navigator.pop(context);
+              CrudServices.updateUser(
+                email: email,
+                name: name,
+                password: password,
+                city: city,
+                town: town,
+              );
+              _onLoading();
             },
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsets>(
@@ -138,6 +160,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ],
       ),
     );
+  }
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.transparent,
+          child: const Center(child: CircularProgressIndicator()),
+        );
+      },
+    );
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
+      Navigator.pop(context); //pop dialog
+      Navigator.pop(context);
+    });
   }
 
   Container getPasswordTextfield(String name) {
@@ -244,29 +284,40 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   offset: const Offset(0, 10))
             ],
             shape: BoxShape.circle,
-            image: const DecorationImage(
+            image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage("assets/images/mrc.jpg"),
+              image: NetworkImage(myUser.imageUrl),
             ),
           ),
         ),
         Positioned(
           bottom: 0,
           right: 0,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                width: 4,
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return const EditPhoto();
+                },
+              );
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 4,
+                  color: Colors.blueAccent,
+                ),
                 color: Colors.blueAccent,
               ),
-              color: Colors.blueAccent,
-            ),
-            child: const Icon(
-              Icons.edit,
-              color: Colors.white,
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -364,27 +415,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (label == "Ad") {
       name = value;
     }
-  }
-
-  void _saveDatas() {
-    String newName = "", newPassword = "", newEmail = "";
-    if (name != "") {
-      newName = name;
-    } else {
-      newName = HiveService.getData()[HiveService.userIndex].name.toString();
+    if (label == "Şehir") {
+      city = value;
     }
-    if (email != "") {
-      newEmail = email;
-    } else {
-      newEmail = HiveService.getData()[HiveService.userIndex].email.toString();
+    if (label == "İlçe") {
+      town == value;
     }
-    if (password != "") {
-      newPassword = password;
-    } else {
-      newPassword =
-          HiveService.getData()[HiveService.userIndex].password.toString();
-    }
-    HiveService.updateData("22222222", newName, newEmail, newPassword,
-        index: 1);
   }
 }

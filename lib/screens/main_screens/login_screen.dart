@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
+
 import 'package:halisaha_app/screens/main_screens/widgets/login_screen_widgets/form_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    CrudServices.usersFirebaseToHive();
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SingleChildScrollView(
