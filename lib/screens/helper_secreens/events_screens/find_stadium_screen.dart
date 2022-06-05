@@ -17,8 +17,8 @@ class FindStadium extends StatelessWidget {
                 itemCount: 50,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.all(20),
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.grey, width: 4)),

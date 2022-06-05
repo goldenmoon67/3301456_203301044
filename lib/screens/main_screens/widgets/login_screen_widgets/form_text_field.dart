@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/screens/main_screens/widgets/login_screen_widgets/forget_password.dart';
 import 'package:halisaha_app/screens/main_screens/widgets/login_screen_widgets/sign_button.dart';

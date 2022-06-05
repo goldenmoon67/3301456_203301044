@@ -130,7 +130,7 @@ class _InfoListState extends State<InfoList>
             ),
             Expanded(
                 child:
-                    ElevatedButton(onPressed: () {}, child: Text("Davet Et")))
+                    ElevatedButton(onPressed: () {}, child: const Text("Davet Et")))
           ],
         ),
       ),

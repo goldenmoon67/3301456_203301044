@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 

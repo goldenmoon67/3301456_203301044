@@ -16,7 +16,7 @@ class _CreatePostingPlayerState extends State<CreatePostingPlayer> {
           Column(
             children: <Widget>[
               const Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(12.0),
                 child: Text(
                   "Oyuncu İlanı Oluştur",
                   style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
@@ -52,7 +52,7 @@ class _CreatePostingPlayerState extends State<CreatePostingPlayer> {
                             flex: 1,
                             child: IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.calendar_today),
+                              icon: const Icon(Icons.calendar_today),
                             ),
                           ),
                         ],
@@ -69,7 +69,7 @@ class _CreatePostingPlayerState extends State<CreatePostingPlayer> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 40),
+                      margin: const EdgeInsets.only(top: 40),
                       height: 50,
                       width: 150,
                       child: ElevatedButton(

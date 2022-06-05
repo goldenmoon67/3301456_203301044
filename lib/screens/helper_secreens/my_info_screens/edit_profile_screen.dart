@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:halisaha_app/screens/helper_secreens/my_info_screens/widgets/edit_profile_widgets/edit_photo_screen.dart';
@@ -29,7 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   bool showPassword = false;
 
   late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  //late TextEditingController _passwordController;
   late TextEditingController _cityController;
   late TextEditingController _townController;
   late TextEditingController _neighborhoodController;
@@ -43,7 +43,7 @@ class _EditProfilePageState extends State<EditProfilePage>
     password = myUser.password;
     city = myUser.city;
     town = myUser.town;
-    _passwordController = TextEditingController();
+    // _passwordController = TextEditingController();
     _cityController = TextEditingController();
     _townController = TextEditingController();
     _neighborhoodController = TextEditingController();
@@ -347,6 +347,7 @@ class _EditProfilePageState extends State<EditProfilePage>
           onSaved: (value) {},
           validator: (value) {
             _getInitialValue(labelText, value!);
+            return null;
           }),
     );
   }

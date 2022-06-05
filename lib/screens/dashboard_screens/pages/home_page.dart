@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/screens/dashboard_screens/widgets/home_page_widgets/info_list.dart';
 import 'package:halisaha_app/screens/dashboard_screens/widgets/home_page_widgets/searching_textfield.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    CrudServices.usersToHive();
     return SingleChildScrollView(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -75,8 +77,11 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
                 itemCount: HiveService.getData().length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    ThePersonMayYouKnow(index: index)),
+                itemBuilder: (context, index) => Column(
+                      children: [
+                        ThePersonMayYouKnow(index: index),
+                      ],
+                    )),
           ),
         ],
       ),

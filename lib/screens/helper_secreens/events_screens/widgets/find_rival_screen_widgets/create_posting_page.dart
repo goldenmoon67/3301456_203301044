@@ -23,7 +23,7 @@ class _CreatePostingState extends State<CreatePosting> {
           Column(
             children: <Widget>[
               const Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(12.0),
                 child: Text(
                   "Maç İlanı Oluştur",
                   style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
@@ -59,7 +59,7 @@ class _CreatePostingState extends State<CreatePosting> {
                             flex: 1,
                             child: IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.calendar_today),
+                              icon: const Icon(Icons.calendar_today),
                             ),
                           ),
                         ],
@@ -80,18 +80,18 @@ class _CreatePostingState extends State<CreatePosting> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          NumberOfPeopleDropdown(),
+                          const NumberOfPeopleDropdown(),
                           Row(
                             children: <Widget>[
                               _getCheckBoxTitle(),
-                              IsReplaceableCheckBox()
+                              const IsReplaceableCheckBox()
                             ],
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 40),
+                      margin: const EdgeInsets.only(top: 40),
                       height: 50,
                       width: 150,
                       child: ElevatedButton(
@@ -102,7 +102,7 @@ class _CreatePostingState extends State<CreatePosting> {
                         onPressed: () {},
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text("OLUŞTUR"),
                             Icon(Icons.add_circle_outline_rounded)
                           ],
@@ -120,6 +120,6 @@ class _CreatePostingState extends State<CreatePosting> {
   }
 
   _getCheckBoxTitle() {
-    return Text("Zaman esnetilebilir mi?");
+    return const Text("Zaman esnetilebilir mi?");
   }
 }

@@ -12,7 +12,7 @@ class PlayerDetailScreen extends StatefulWidget {
 class _PlayerDetailScreenState extends State<PlayerDetailScreen>
     with SingleTickerProviderStateMixin {
   TextStyle textStyle =
-      TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+      const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
   late TabController _tabController;
 
   @override
@@ -38,7 +38,7 @@ class _PlayerDetailScreenState extends State<PlayerDetailScreen>
                   topRight: Radius.circular(24),
                 )),
             child: Container(
-              margin: EdgeInsets.only(top: 70),
+              margin: const EdgeInsets.only(top: 70),
               child: Column(
                 children: [
                   Flexible(flex: 1, child: buildTabBar()),
@@ -59,71 +59,66 @@ class _PlayerDetailScreenState extends State<PlayerDetailScreen>
           ),
           Stack(
             children: [
-              Container(
-                child: Image.asset(
-                  "assets/images/back_myProfile.jpg",
-                  fit: BoxFit.fill,
-                  height: 250,
-                  width: double.infinity,
-                ),
+              Image.asset(
+                "assets/images/back_myProfile.jpg",
+                fit: BoxFit.fill,
+                height: 250,
+                width: double.infinity,
               ),
               Column(
                 children: <Widget>[
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: const <Widget>[
-                          Text(
-                            "",
-                            style: TextStyle(
-                                fontSize: 36,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: const <Widget>[
+                        Text(
+                          "",
+                          style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: MediaQuery.of(context).size.width - 10,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(36.0),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 70),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    "24 Yaş",
-                                    style: textStyle,
-                                  ),
-                                  Text(
-                                    "Orta Saha",
-                                    style: textStyle,
-                                  )
-                                ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                    width: MediaQuery.of(context).size.width - 10,
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(36.0),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 70),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  "24 Yaş",
+                                  style: textStyle,
+                                ),
+                                Text(
+                                  "Orta Saha",
+                                  style: textStyle,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 170,
+                            width: 150,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.contain,
+                                image: AssetImage("assets/images/mrc.jpg"),
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              height: 170,
-                              width: 150,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.contain,
-                                  image: AssetImage("assets/images/mrc.jpg"),
-                                ),
-                              ),
-                            ),
-                          ), //child: Image.asset("assets/images/mrc.jpg"))
-                        ],
-                      ),
+                        ),
+                        //child: Image.asset("assets/images/mrc.jpg"))
+                      ],
                     ),
                   )
                 ],

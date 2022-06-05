@@ -34,7 +34,7 @@ class TeamResults extends StatelessWidget {
                       alignment: Alignment.center,
                       width: 16,
                       height: 16,
-                      child: Text("G",style: TextStyle(color: Colors.white),),
+                      child: const Text("G",style: TextStyle(color: Colors.white),),
                       color: Colors.green,
 
                     ),

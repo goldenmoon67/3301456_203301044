@@ -41,7 +41,7 @@ class TeamCard extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(-10, 10),
+                    offset: const Offset(-10, 10),
                     color: Colors.grey.shade400,
                     blurRadius: 12,
                   ),

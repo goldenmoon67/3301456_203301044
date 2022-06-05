@@ -8,19 +8,15 @@ class HiveService {
 
   static void setData(String id, String name, String email, String password,
       String imageUrl, String city, String town) {
-    debugPrint("fonksiton çalışsut");
     for (var element in list) {
-      debugPrint("setdata for");
       if (element.id == id) {
         MyUser _firstCurrentUser = readCurrentUser();
-        debugPrint("varsayılan kullanıcı");
         if (_firstCurrentUser.id == id) {
           takeCurrentUser(name: name, email: email, password: password);
         }
 
         updateData(id, name, email, password, imageUrl, city, town);
       } else {
-        debugPrint("yenisi ekleniyor for");
         MyUser newUser =
             MyUser(id, name, email, password, imageUrl, city, town);
         var box = Hive.box("userbox");
@@ -97,14 +93,14 @@ class HiveService {
     late String city;
     late String town;
     var userList = getData();
-    userList.forEach((element) {
+    for (var element in userList) {
       if (element.email == email && element.password == password) {
         id = element.id;
         imageUrl = element.imageUrl;
         city = element.city;
         town = element.town;
       } else {}
-    });
+    }
     MyUser _myuser = MyUser(id, name, email, password, imageUrl, city, town);
     var box = Hive.box('currentUserbox');
     box.putAt(0, _myuser);

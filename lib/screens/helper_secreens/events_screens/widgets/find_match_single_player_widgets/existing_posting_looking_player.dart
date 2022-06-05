@@ -50,7 +50,7 @@ class _ExistingPostingLokingPlayerState
           child: Row(
             children: [
                Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
                   height: 50,
                   width: 50,
@@ -96,8 +96,8 @@ class _ExistingPostingLokingPlayerState
                         width: MediaQuery.of(context).size.width - 120,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text("Nergis Halısaha"),
+                          children: const [
+                            Text("Nergis Halısaha"),
                             Text("7 vs 7"),
                           ],
                         ),

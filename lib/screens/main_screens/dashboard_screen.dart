@@ -79,13 +79,13 @@ class _DashBoardScreenState extends State<DashBoardScreen>
   Widget buildNavigationBar() {
     return Material(
       borderRadius:
-          BorderRadius.vertical(top: Radius.circular(25), bottom: Radius.zero),
+          const BorderRadius.vertical(top: Radius.circular(25), bottom: Radius.zero),
       color: Colors.white12,
       child: TabBar(
         indicatorColor: Colors.blueAccent,
         labelColor: Colors.black,
         unselectedLabelColor: Colors.grey,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           bottom: 5,
         ),
         controller: _tabController,

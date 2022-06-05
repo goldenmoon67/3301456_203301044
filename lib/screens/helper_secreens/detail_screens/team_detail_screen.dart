@@ -46,7 +46,7 @@ class _TeamDetailScreenState extends State<TeamDetailScreen>
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height - 550,
               width: MediaQuery.of(context).size.width,
               child: Stack(

@@ -32,7 +32,7 @@ class MessagesPage extends StatelessWidget {
                         )
                       ),
                     ),
-                    title: Text("Mirac Altinay"),
+                    title: const Text("Mirac Altinay"),
                     subtitle: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: const [
@@ -49,7 +49,7 @@ class MessagesPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){},
-        child:Icon(Icons.message_outlined),
+        child:const Icon(Icons.message_outlined),
       ),
     );
   }

@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
-import 'package:halisaha_app/screens/main_screens/dashboard_screen.dart';
-import 'package:halisaha_app/screens/main_screens/login_screen.dart';
 
 class SingInWithGoogle extends StatelessWidget {
   const SingInWithGoogle({Key? key}) : super(key: key);
@@ -21,7 +18,7 @@ class SingInWithGoogle extends StatelessWidget {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  side: BorderSide(color: Colors.blueAccent),
+                  side: const BorderSide(color: Colors.blueAccent),
                 ),
               )),
           onPressed: () {
@@ -33,7 +30,7 @@ class SingInWithGoogle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Image.asset("assets/images/google.png"),
-                Text(
+                const Text(
                   "Google İle Giriş Yap",
                   style: TextStyle(color: Colors.blueAccent, fontSize: 20),
                 ),

@@ -10,7 +10,7 @@ class TeamCard extends StatelessWidget {
       ){
         Navigator.pushNamed(context, "/TeamDetailScreen");
       },
-      child:  Container(
+      child:  SizedBox(
         height: 230,
         child: Stack(
           children: [
@@ -28,7 +28,7 @@ class TeamCard extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
-                            offset: Offset(-10, 10),
+                            offset: const Offset(-10, 10),
                             blurRadius: 10,
                             spreadRadius:4,),
                       ]),
@@ -60,7 +60,7 @@ class TeamCard extends StatelessWidget {
             Positioned(
                 top: 45,
                 left: 155,
-                child: Container(
+                child: SizedBox(
                   height: 150,
                   width: 210,
                   child: Column(

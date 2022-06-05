@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/firebase_services/authentication_service.dart';
-import 'package:halisaha_app/helper/firebase_services/crud_services.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
+import 'package:halisaha_app/model/city.dart';
 import 'package:halisaha_app/screens/helper_secreens/widgets/always_use/my_scaffold.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -24,10 +25,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController _cityController;
 
   late String? name, email, password;
+  late Future<List<City>> cityList;
+  late String dropdownValue = "Zonguldak";
 
   @override
   void initState() {
     super.initState();
+    cityList = _getCityList();
     _passwordController = TextEditingController();
     _nameController = TextEditingController();
     _emailController = TextEditingController();
@@ -70,13 +74,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 getEmailTextField(),
                 getPasswordTextfield(),
-                getTextfield(
+                getCityButton(context),
+                /* getTextfield(
                   "Şehir",
                   "Bulunduğunuz Şehir",
                   false, //character visibilitty
                   _cityController,
                   TextInputType.text,
                 ),
+                */
                 getTextfield(
                   "İlçe",
                   "Bulunduğunuz İlçe",
@@ -236,5 +242,74 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (label == "Ad") {
       name = value;
     }
+  }
+
+  Future<List<City>> _getCityList() async {
+    try {
+      var response =
+          await Dio().get('http://api-sehir.herokuapp.com/api/cities/');
+      List<City> _cityList = [];
+      if (response.statusCode == 200) {
+        _cityList =
+            (response.data as List).map((e) => City.fromMap(e)).toList();
+      } else {
+        _cityList = [
+          City(date: " 10", cityInfo: CityInfo(plaka: 1, city: "city"))
+        ];
+      }
+      return _cityList;
+    } on DioError {
+      return [City(date: " 10", cityInfo: CityInfo(plaka: 1, city: "city"))];
+    }
+  }
+
+  getCityButton(BuildContext context) {
+    return FutureBuilder(
+        future: cityList,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<City> cities = snapshot.data as List<City>;
+            List<String> citInfo = [];
+            for (int i = 0; i < cities.length; i++) {
+              citInfo.add((cities[i].cityInfo.city.toString()));
+            }
+
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Container(
+                height: 55,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.grey, width: 1)),
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  // elevation: 16,
+                  style: const TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                  alignment: Alignment.center,
+                  underline: const SizedBox(),
+                  isExpanded: true,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                  items: citInfo.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Center(child: Text(value)),
+                    );
+                  }).toList(),
+                ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
   }
 }

@@ -45,7 +45,7 @@ class _ExistingPlayerState extends State<ExistingPlayer> {
           child: Row(
             children: [
                Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
                   height: 50,
                   width: 50,

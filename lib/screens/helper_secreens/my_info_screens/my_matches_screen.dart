@@ -18,7 +18,7 @@ class MyMatchesScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: Padding(
                             padding:
@@ -31,7 +31,7 @@ class MyMatchesScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     _getTeamName(),
-                                    Text(" - "),
+                                    const Text(" - "),
                                     _getRivalTeam(),
                                     Row(
                                       children: <Widget>[
@@ -45,7 +45,7 @@ class MyMatchesScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                       ],
                     );
                   },
