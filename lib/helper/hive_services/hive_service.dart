@@ -86,6 +86,19 @@ class HiveService {
     }
   }
 
+  static takeonce() {
+    MyUser _myuser = MyUser(
+        "KnNmQaqT7i8lDv0LrRwD",
+        "Mirac Altinay",
+        "m@altinay",
+        "123456",
+        "https://firebasestorage.googleapis.com/v0/b/halisahaapp.appspot.com/o/user_profile_image%2FKnNmQaqT7i8lDv0LrRwD?alt=media&token=cb944115-5847-4b2a-b395-0197a0431803",
+        "city",
+        "town");
+    var box = Hive.box('currentUserbox');
+    box.add(_myuser);
+  }
+
   static takeCurrentUser(
       {required String name, required String email, required password}) {
     late String id;
@@ -127,6 +140,11 @@ class HiveService {
     }
   }
 
+  static loginHiveonce() {
+    var box = Hive.box('informationbox');
+    box.add(1);
+  }
+
   static loginHive() {
     var box = Hive.box('informationbox');
     box.putAt(0, 1);
@@ -146,3 +164,19 @@ class HiveService {
     return result;
   }
 }
+
+/*
+ static takeonce() {
+    MyUser _myuser = MyUser(
+        "KnNmQaqT7i8lDv0LrRwD",
+        "sezin güleryüz",
+        "ahmet@a",
+        "123456",
+        "https://firebasestorage.googleapis.com/v0/b/halisahaapp.appspot.com/o/user_profile_image%2FKnNmQaqT7i8lDv0LrRwD?alt=media&token=cb944115-5847-4b2a-b395-0197a0431803",
+        "city",
+        "town");
+    var box = Hive.box('currentUserbox');
+    box.putAt(0, _myuser);
+  }
+
+*/

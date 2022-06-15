@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/model/users.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class InfoList extends StatefulWidget {
   const InfoList({Key? key}) : super(key: key);
@@ -101,7 +103,21 @@ class _InfoListState extends State<InfoList>
                 Expanded(child: Text("Rakip mi arıyorsun?", style: textStyle)),
                 Expanded(
                     child: ElevatedButton(
-                        onPressed: () {}, child: const Text("İlanları Gör")))
+                        onPressed: () {
+                          var box = Hive.box("userbox");
+                          box.clear();
+                          box.put(
+                              "KnNmQaqT7i8lDv0LrRwD",
+                              MyUser(
+                                  "KnNmQaqT7i8lDv0LrRwD",
+                                  "Mirac Altinay",
+                                  "m@altinay",
+                                  "123456",
+                                  "https://firebasestorage.googleapis.com/v0/b/halisahaapp.appspot.com/o/user_profile_image%2FKnNmQaqT7i8lDv0LrRwD?alt=media&token=cb944115-5847-4b2a-b395-0197a0431803",
+                                  "city",
+                                  "town"));
+                        },
+                        child: const Text("İlanları Gör")))
               ],
             ),
           ),
@@ -129,8 +145,8 @@ class _InfoListState extends State<InfoList>
               child: Text("Takımı Güçlendir", style: textStyle),
             ),
             Expanded(
-                child:
-                    ElevatedButton(onPressed: () {}, child: const Text("Davet Et")))
+                child: ElevatedButton(
+                    onPressed: () {}, child: const Text("Davet Et")))
           ],
         ),
       ),

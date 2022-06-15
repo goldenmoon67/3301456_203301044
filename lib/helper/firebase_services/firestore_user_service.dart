@@ -29,12 +29,22 @@ class CrudServices {
     _db.doc('users/$_newDocId').set(user);
   }
 
-  static updateUser(
-      {required String email,
-      required String name,
-      required String password,
-      required String city,
-      required String town}) {
+  static updateImage(String image) {
+    MyUser _myuser = HiveService.readCurrentUser();
+
+    HiveService.updateData(_myuser.id, _myuser.name, _myuser.email,
+        _myuser.password, image, _myuser.city, _myuser.town);
+    HiveService.takeCurrentUser(
+        name: _myuser.name, email: _myuser.email, password: _myuser.password);
+  }
+
+  static updateUser({
+    required String email,
+    required String name,
+    required String password,
+    required String city,
+    required String town,
+  }) {
     MyUser _myuser = HiveService.readCurrentUser();
     CollectionReference users = _db.collection("users");
     users
@@ -78,6 +88,7 @@ class CrudServices {
       for (var doc in event.docs) {
         debugPrint("usertohive");
         users.add(doc.data());
+        debugPrint(doc.data()['name'].toString());
         HiveService.setData(
             doc.data()['id'].toString(),
             doc.data()['name'].toString(),
@@ -104,10 +115,12 @@ class CrudServices {
     var _task = _profileRef.putFile(File(_file!.path));
     _task.whenComplete(() async {
       var _url = await _profileRef.getDownloadURL();
+      updateImage(_url);
       _db
           .doc('users/${_currentUser.id}')
           .set({'profile_image': _url.toString()}, SetOptions(merge: true));
       usersToHive();
+      // HiveService.takeCurrentUser(name: name, email: email, password: password),
     });
   }
 }

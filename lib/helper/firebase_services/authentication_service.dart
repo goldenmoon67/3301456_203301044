@@ -7,7 +7,6 @@ class AuthenticationService {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
       //_userCredential.user.displayName?=name!;
     } catch (e) {
       debugPrint(e.toString());

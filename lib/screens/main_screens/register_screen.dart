@@ -209,6 +209,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   city: "Zonguldak",
                   town: "Ereğli");
               CrudServices.plusPlusUsers();
+              ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
+              Navigator.pop(context);
             },
             style: ButtonStyle(
               padding: MaterialStateProperty.all<EdgeInsets>(

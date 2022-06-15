@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:halisaha_app/helper/fetch_city_service/fetch_team_results_service.dart';
+import 'package:halisaha_app/helper/fetch_leaderboard/fetch_team_results_service.dart';
 import 'package:halisaha_app/model/team_result.dart';
 
 class StatisticsPage extends StatefulWidget {
@@ -51,7 +51,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       onPressed: () {
                         _actionSheet();
                       },
-                      icon: const Icon(Icons.bar_chart_outlined),
+                      color: Colors.white,
+                      icon: const Icon(
+                        Icons.bar_chart_outlined,
+                      ),
                     ),
                   ],
                 ),
@@ -167,11 +170,12 @@ class _StatisticsPageState extends State<StatisticsPage> {
         builder: (context) {
           return PieChart(
             PieChartData(sections: [
-              PieChartSectionData(color: Colors.red, value: 10, title: "TS"),
-              PieChartSectionData(color: Colors.yellow, value: 40, title: "FB"),
-              PieChartSectionData(color: Colors.grey, value: 50, title: "KON"),
+              PieChartSectionData(color: Colors.red, value: 56, title: "TS"),
+              PieChartSectionData(color: Colors.yellow, value: 33, title: "FB"),
+              PieChartSectionData(color: Colors.grey, value: 28, title: "KON"),
             ]),
-            swapAnimationDuration: const Duration(milliseconds: 150), // Optional
+            swapAnimationDuration:
+                const Duration(milliseconds: 150), // Optional
             swapAnimationCurve: Curves.linear, // Optional
           );
         });

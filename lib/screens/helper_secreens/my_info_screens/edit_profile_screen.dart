@@ -175,8 +175,11 @@ class _EditProfilePageState extends State<EditProfilePage>
     );
     Future.delayed(const Duration(milliseconds: 1000), () {
       ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
-      Navigator.pop(context); //pop dialog
+      setState(() {});
       Navigator.pop(context);
+      setState(() {}); //pop dialog
+      Navigator.pop(context);
+      setState(() {});
     });
   }
 
@@ -299,7 +302,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return const EditPhoto();
+                  return EditPhoto(context: context, image: myUser.imageUrl);
                 },
               );
             },

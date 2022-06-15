@@ -8,7 +8,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // CrudServices.usersToHive();
+    //CrudServices.usersToHive();
+
     return AnimatedSplashScreen(
         duration: 2000,
         splashIconSize: 300,

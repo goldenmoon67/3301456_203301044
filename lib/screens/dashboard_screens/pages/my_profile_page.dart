@@ -13,13 +13,47 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
-  final myUser = HiveService.readCurrentUser();
   @override
   Widget build(BuildContext context) {
     MyUser _currentUser = HiveService.readCurrentUser();
     return Column(
       children: <Widget>[
-        buildHeader(context),
+        Stack(
+          children: [
+            Image.asset(
+              "assets/images/back_myProfile.jpg",
+              fit: BoxFit.contain,
+              height: 300,
+              width: double.infinity,
+            ),
+            Positioned(
+              top: 150,
+              right: 130,
+              left: 130,
+              child: Container(
+                width: 130,
+                height: 130,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 4,
+                      color: Theme.of(context).scaffoldBackgroundColor),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        color: Colors.black.withOpacity(0.1),
+                        offset: const Offset(0, 10))
+                  ],
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(_currentUser.imageUrl),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         Text(_currentUser.name.toString(),
             style: LoginConstants.loginTextStyle),
         const SizedBox(
@@ -131,43 +165,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
         ),
         color: color,
       ),
-    );
-  }
-
-  Stack buildHeader(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/images/back_myProfile.jpg",
-          fit: BoxFit.contain,
-          height: 300,
-          width: double.infinity,
-        ),
-        Positioned(
-          top: 150,
-          right: 130,
-          child: Container(
-            width: 130,
-            height: 130,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  width: 4, color: Theme.of(context).scaffoldBackgroundColor),
-              boxShadow: [
-                BoxShadow(
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    color: Colors.black.withOpacity(0.1),
-                    offset: const Offset(0, 10))
-              ],
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(myUser.imageUrl),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

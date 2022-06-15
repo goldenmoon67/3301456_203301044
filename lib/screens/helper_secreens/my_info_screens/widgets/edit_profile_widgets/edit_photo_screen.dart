@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 import 'package:halisaha_app/model/users.dart';
+import 'package:halisaha_app/screens/main_screens/dashboard_screen.dart';
 
+// ignore: must_be_immutable
 class EditPhoto extends StatefulWidget {
-  const EditPhoto({Key? key}) : super(key: key);
+  final BuildContext context;
+  late String image;
+
+  EditPhoto({Key? key, required this.context, required this.image})
+      : super(key: key);
 
   @override
   State<EditPhoto> createState() => _EditPhotoState();
@@ -15,9 +21,11 @@ class _EditPhotoState extends State<EditPhoto> {
     content: const Text('Başarı ile düzenlendi!'),
     backgroundColor: Colors.green.shade400,
   );
+
   @override
   Widget build(BuildContext context) {
-    MyUser _currentUser = HiveService.readCurrentUser();
+    context = widget.context;
+
     return Center(
       child: StatefulBuilder(
           builder: ((context, setState) => Dialog(
@@ -55,7 +63,7 @@ class _EditPhotoState extends State<EditPhoto> {
                       ),
                       Image(
                         height: 350,
-                        image: NetworkImage(_currentUser.imageUrl),
+                        image: NetworkImage(widget.image),
                       ),
                       Row(
                         children: [
@@ -149,6 +157,8 @@ class _EditPhotoState extends State<EditPhoto> {
             child: OutlinedButton(
               onPressed: () {
                 CrudServices.kameraGaleriImageUpload(type: false);
+                MyUser myUser = HiveService.readCurrentUser();
+                widget.image = myUser.imageUrl;
                 _onLoading();
               },
               child: Column(
@@ -169,7 +179,9 @@ class _EditPhotoState extends State<EditPhoto> {
             child: OutlinedButton(
               onPressed: () {
                 CrudServices.kameraGaleriImageUpload(type: true);
+                setState(() {});
                 _onLoading();
+                setState(() {});
               },
               child: Column(
                 children: const [
@@ -190,11 +202,9 @@ class _EditPhotoState extends State<EditPhoto> {
   void _onLoading() {
     Future.delayed(const Duration(milliseconds: 5000), () {
       //ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
-      Navigator.pop(context);
-      setState(() {});
-      Navigator.pop(context);
       setState(() {});
     });
+    setState(() {});
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -205,11 +215,22 @@ class _EditPhotoState extends State<EditPhoto> {
         );
       },
     );
+    setState(() {});
     Future.delayed(const Duration(milliseconds: 2000), () {
       //ScaffoldMessenger.of(context).showSnackBar(snackbarMessage);
       setState(() {});
-      Navigator.pop(context);
+      setState(() {});
+      Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const DashBoardScreen()))
+          .then(
+        (value) {
+          setState(() {});
+        },
+      );
+
+      setState(() {});
     });
+    setState(() {});
   }
 
   _getRemove(BuildContext context) {

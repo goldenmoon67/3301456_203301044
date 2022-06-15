@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    CrudServices.usersToHive();
     return SingleChildScrollView(
       child: SizedBox(
         height: MediaQuery.of(context).size.height,

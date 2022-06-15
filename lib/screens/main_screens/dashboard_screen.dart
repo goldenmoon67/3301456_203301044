@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/helper/hive_services/hive_service.dart';
 
 import 'package:halisaha_app/screens/dashboard_screens/pages/my_profile_page.dart';
@@ -21,6 +22,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
 
   @override
   void initState() {
+    CrudServices.usersToHive();
     _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(_handleTabSelection);
     super.initState();
@@ -52,11 +54,12 @@ class _DashBoardScreenState extends State<DashBoardScreen>
                 FirebaseAuth aut = FirebaseAuth.instance;
                 aut.signOut();
                 HiveService.logOutHive();
+                Navigator.pushNamed(context, "/LoginScreen");
               },
               icon: const Icon(
-                Icons.search,
+                Icons.exit_to_app,
               ),
-              color: Colors.grey,
+              color: Colors.blue,
             ),
           ),
         ],
@@ -78,8 +81,8 @@ class _DashBoardScreenState extends State<DashBoardScreen>
 
   Widget buildNavigationBar() {
     return Material(
-      borderRadius:
-          const BorderRadius.vertical(top: Radius.circular(25), bottom: Radius.zero),
+      borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(25), bottom: Radius.zero),
       color: Colors.white12,
       child: TabBar(
         indicatorColor: Colors.blueAccent,
