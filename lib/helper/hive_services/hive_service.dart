@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:halisaha_app/helper/firebase_services/firestore_user_service.dart';
 import 'package:halisaha_app/model/users.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,20 +9,27 @@ class HiveService {
 
   static void setData(String id, String name, String email, String password,
       String imageUrl, String city, String town) {
-    for (var element in list) {
-      if (element.id == id) {
-        MyUser _firstCurrentUser = readCurrentUser();
-        if (_firstCurrentUser.id == id) {
-          takeCurrentUser(name: name, email: email, password: password);
-        }
+    if (list.isNotEmpty) {
+      for (var element in list) {
+        if (element.id == id && readCurrentUser() != null) {
+          MyUser _firstCurrentUser = readCurrentUser();
+          if (_firstCurrentUser.id == id) {
+            takeCurrentUser(name: name, email: email, password: password);
+          }
 
-        updateData(id, name, email, password, imageUrl, city, town);
-      } else {
-        MyUser newUser =
-            MyUser(id, name, email, password, imageUrl, city, town);
-        var box = Hive.box("userbox");
-        box.put(id, newUser);
+          updateData(id, name, email, password, imageUrl, city, town);
+        } else {
+          MyUser newUser =
+              MyUser(id, name, email, password, imageUrl, city, town);
+          var box = Hive.box("userbox");
+          box.put(id, newUser);
+        }
       }
+    } else {
+      MyUser newUser = MyUser(id, name, email, password, imageUrl, city, town);
+      var box = Hive.box("userbox");
+      box.put(id, newUser);
+      CrudServices.usersToHive();
     }
   }
 
@@ -112,11 +120,16 @@ class HiveService {
         imageUrl = element.imageUrl;
         city = element.city;
         town = element.town;
+        MyUser _myuser =
+            MyUser(id, name, email, password, imageUrl, city, town);
+        var box = Hive.box('currentUserbox');
+        if (box.isNotEmpty) {
+          box.putAt(0, _myuser);
+        } else {
+          box.add(_myuser);
+        }
       } else {}
     }
-    MyUser _myuser = MyUser(id, name, email, password, imageUrl, city, town);
-    var box = Hive.box('currentUserbox');
-    box.putAt(0, _myuser);
   }
 
   static readCurrentUser() {
@@ -142,7 +155,9 @@ class HiveService {
 
   static loginHiveonce() {
     var box = Hive.box('informationbox');
-    box.add(1);
+    if (box.isEmpty) {
+      box.add(0);
+    }
   }
 
   static loginHive() {
